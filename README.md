@@ -228,7 +228,7 @@ Make sure the following are installed:
 Clone the repository:
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone http://localhost:5173/
 ```
 
 Navigate to the project:
@@ -346,7 +346,7 @@ https://wokwi.com/projects/473885295435229185
 ### Source Code
 
 **GitHub:**
-`<INSERT GITHUB REPOSITORY LINK>`
+https://github.com/sakshi-exe/SIH-2026.git
 
 ### QR Access
 
