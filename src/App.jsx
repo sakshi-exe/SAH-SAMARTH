@@ -32,7 +32,7 @@ function Layout({ children }) {
 
           {sidebarOpen && (
             <div>
-              <h2>CIVIC <b>FIX</b></h2>
+              <h2>SAH-<b>SAMARTH</b></h2>
               <small>Together for a Better Tomorrow</small>
             </div>
           )}

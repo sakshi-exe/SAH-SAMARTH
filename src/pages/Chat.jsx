@@ -115,7 +115,7 @@ const Chat = () => {
       <div className="page-heading">
         <div>
           <span className="eyebrow">AI ASSISTANT</span>
-          <h1>Cooperative Sahayak</h1>
+          <h1>SAH-SAMARTH</h1>
           <p>Your multilingual AI assistant for cooperative-related queries.</p>
         </div>
 
@@ -143,7 +143,7 @@ const Chat = () => {
                 <div className="message-content">
                   <div className="message-meta">
                     <strong>
-                      {item.sender === "assistant" ? "Cooperative Sahayak" : "You"}
+                      {item.sender === "assistant" ? "SAH-SAMARTH" : "You"}
                     </strong>
                     <span>{item.timestamp}</span>
                   </div>

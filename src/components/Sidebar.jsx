@@ -5,7 +5,7 @@ function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-logo">
         🌾
-        <span>Cooperative<br />Sahayak</span>
+        <span>SAH-<br />SAMARTH</span>
       </div>
 
       <div className="sidebar-menu">
@@ -19,7 +19,7 @@ function Sidebar() {
         <p>Need help?</p>
 
         <Link to="/chat" className="sidebar-help">
-          Ask Sahayak →
+          Ask SAH-SAMARTH →
         </Link>
       </div>
     </aside>

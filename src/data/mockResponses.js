@@ -16,14 +16,14 @@ const mockResponses = {
   grievance: {
     keywords: ["grievance", "complaint", "complain"],
     response:
-      "You can register a grievance through Cooperative Sahayak. Your complaint will receive a reference ID that can be used for tracking.",
-    source: "Cooperative Sahayak Grievance System",
+      "You can register a grievance through SAH-SAMARTH. Your complaint will receive a reference ID that can be used for tracking.",
+    source: "SAH-SAMARTH Grievance System",
   },
 
   default: {
     response:
       "I can help you with cooperative services, government schemes, agricultural support and grievance-related information.",
-    source: "Cooperative Sahayak Knowledge Base",
+    source: "SAH-SAMARTH Knowledge Base",
   },
 };
 

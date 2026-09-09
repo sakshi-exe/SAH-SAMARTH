@@ -12,7 +12,7 @@ export default function Home() {
         <div className="hero-content">
 
           <div className="hero-tag">
-            🇮🇳 SMART CIVIC ASSISTANT
+            🇮🇳 SAH-SAMARTH CIVIC ASSISTANT
           </div>
 
           <h1>
@@ -58,7 +58,7 @@ export default function Home() {
           <div className="phone">
             <div className="phone-screen">
               <div className="phone-logo">✓</div>
-              <strong>CIVIC<br />FIX</strong>
+              <strong>SAH-<br />SAMARTH</strong>
             </div>
           </div>
 
@@ -178,7 +178,7 @@ export default function Home() {
               category="Roads & Infrastructure"
               status="In Progress"
               statusType="progress"
-              id="#CFX-2026-1256"
+              id="#SAH-2026-1256"
               time="2 days ago"
             />
 
@@ -188,7 +188,7 @@ export default function Home() {
               category="Electricity"
               status="Open"
               statusType="open"
-              id="#CFX-2026-1255"
+              id="#SAH-2026-1255"
               time="4 days ago"
             />
 
@@ -198,7 +198,7 @@ export default function Home() {
               category="Sanitation"
               status="Resolved"
               statusType="resolved"
-              id="#CFX-2026-1254"
+              id="#SAH-2026-1254"
               time="1 week ago"
             />
 
@@ -217,7 +217,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h3>Civic AI Assistant</h3>
+              <h3>SAH-SAMARTH AI Assistant</h3>
               <span>
                 <i></i> Online
               </span>
@@ -228,7 +228,7 @@ export default function Home() {
           <div className="bot-message">
             <strong>Hello! 👋</strong>
             <p>
-              I'm your Civic Assistant.
+              I'm your SAH-SAMARTH Assistant.
               <br />
               How can I help you today?
             </p>

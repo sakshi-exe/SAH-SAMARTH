@@ -7,7 +7,7 @@ function Navbar() {
     <nav>
       <div>
         <Link to="/">
-          <strong>Cooperative Sahayak</strong>
+          <strong>SAH-SAMARTH</strong>
         </Link>
       </div>
 
