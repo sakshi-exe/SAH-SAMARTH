@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import mockResponses from "../data/mockResponses";
 
 const quickQuestions = [
@@ -30,6 +31,8 @@ const getMockReply = (text) => {
 };
 
 const Chat = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -41,12 +44,22 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [voiceMessage, setVoiceMessage] = useState("");
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
+  const responseTimersRef = useRef(new Set());
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    const initialMessage = location.state?.initialMessage;
+    if (initialMessage) {
+      setMessage(initialMessage);
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [location.pathname, location.state, navigate]);
 
   useEffect(() => {
     const SpeechRecognition =
@@ -65,10 +78,18 @@ const Chat = () => {
     };
 
     recognition.onend = () => setIsListening(false);
+    recognition.onerror = (event) => {
+      setIsListening(false);
+      setVoiceMessage(event.error === "not-allowed" ? "Microphone permission was denied." : "Voice input could not be started.");
+    };
     recognitionRef.current = recognition;
 
-    return () => recognition.stop();
-  }, []);
+    return () => {
+      recognition.stop();
+      responseTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      responseTimersRef.current.clear();
+    };
+  }, [navigate]);
 
   const addMessage = (sender, text) => ({
     id: Date.now() + Math.random(),
@@ -86,17 +107,19 @@ const Chat = () => {
     setMessage("");
     setIsTyping(true);
 
-    window.setTimeout(() => {
+    const responseTimer = window.setTimeout(() => {
       const reply = getMockReply(trimmed);
-      setMessages((prev) => [...prev, addMessage("assistant", reply.text)]);
+      setMessages((prev) => [...prev, { ...addMessage("assistant", reply.text), source: reply.source }]);
       setIsTyping(false);
+      responseTimersRef.current.delete(responseTimer);
     }, 1000);
+    responseTimersRef.current.add(responseTimer);
   };
 
   const handleVoice = () => {
     const recognition = recognitionRef.current;
     if (!recognition) {
-      setMessage((prev) => prev || "Voice input is not supported in this browser.");
+      setVoiceMessage("Voice input is not supported in this browser.");
       return;
     }
 
@@ -106,8 +129,23 @@ const Chat = () => {
       return;
     }
 
-    recognition.start();
-    setIsListening(true);
+    try {
+      setVoiceMessage("");
+      recognition.start();
+      setIsListening(true);
+    } catch {
+      setVoiceMessage("Voice input is already active. Please try again shortly.");
+      setIsListening(false);
+    }
+  };
+
+  const clearConversation = () => {
+    responseTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+    responseTimersRef.current.clear();
+    setMessages([]);
+    setIsTyping(false);
+    setMessage("");
+    setVoiceMessage("");
   };
 
   return (
@@ -119,9 +157,14 @@ const Chat = () => {
           <p>Your multilingual AI assistant for cooperative-related queries.</p>
         </div>
 
-        <div className="status-pill" aria-live="polite">
-          <span className="status-dot"></span>
-          Online
+        <div className="chat-heading-actions">
+          <button type="button" className="secondary-btn clear-chat-btn" onClick={clearConversation}>
+            Clear chat
+          </button>
+          <div className="status-pill" aria-live="polite">
+            <span className="status-dot"></span>
+            Online
+          </div>
         </div>
       </div>
 
@@ -148,6 +191,7 @@ const Chat = () => {
                     <span>{item.timestamp}</span>
                   </div>
                   <p>{item.text}</p>
+                  {item.source && <small className="message-source">Source: {item.source}</small>}
                 </div>
               </div>
             ))}
@@ -164,6 +208,8 @@ const Chat = () => {
                 </div>
               </div>
             )}
+
+            {voiceMessage && <div className="chat-notice" role="status">{voiceMessage}</div>}
           </div>
         )}
 

@@ -450,6 +450,7 @@ button:disabled {
   background: #fafbfd;
 
   transition: 0.2s ease;
+  position: relative;
 }
 
 .search-box:focus-within {
@@ -470,11 +471,99 @@ button:disabled {
   color: var(--dark);
 }
 
+.search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: 6px;
+  border: 1px solid #e8ebf0;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 14px 30px rgba(20, 30, 50, 0.12);
+}
+
+.search-results button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--dark);
+  text-align: left;
+}
+
+.search-results button:hover {
+  background: #fff7ed;
+}
+
+.search-results button strong {
+  font-size: 11px;
+}
+
+.search-results button span,
+.search-empty {
+  color: #7a8492;
+  font-size: 10px;
+}
+
+.search-empty {
+  padding: 12px;
+}
+
 .top-actions {
   margin-left: auto;
   display: flex;
   align-items: center;
   gap: 14px;
+  position: relative;
+}
+
+.topbar-menu {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  z-index: 35;
+  min-width: 180px;
+  padding: 8px;
+  border: 1px solid #e8ebf0;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 14px 30px rgba(20, 30, 50, 0.12);
+}
+
+.topbar-menu button {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 9px;
+  background: transparent;
+  color: #394150;
+  text-align: left;
+  font-size: 11px;
+}
+
+.topbar-menu button:hover,
+.topbar-menu button.selected {
+  background: #fff7ed;
+  color: var(--saffron);
+}
+
+.notification-menu,
+.profile-menu {
+  display: grid;
+  gap: 7px;
+  padding: 13px;
+}
+
+.notification-menu p,
+.profile-menu span {
+  color: #7a8492;
+  font-size: 10px;
+  line-height: 1.4;
 }
 
 .language-btn,
@@ -512,6 +601,10 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 9px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  padding: 0;
 }
 
 .avatar {
@@ -1032,6 +1125,17 @@ button:disabled {
   padding: 12px 3px;
 
   border-bottom: 1px solid #f0f2f5;
+  width: 100%;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.issue-row:hover {
+  background: #fffaf5;
 }
 
 .issue-image {

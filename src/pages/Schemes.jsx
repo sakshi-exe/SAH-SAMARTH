@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const schemes = [
   {
@@ -58,16 +59,26 @@ const schemes = [
 ];
 
 const Schemes = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [selectedScheme, setSelectedScheme] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [actionMessage, setActionMessage] = useState("");
 
-  const categories = ["ALL", "COOPERATIVE", "FINANCE", "AGRICULTURE", "EMPOWERMENT"];
+  const categories = ["ALL", "COOPERATIVE", "FINANCE", "AGRICULTURE", "EMPOWERMENT", "INFRASTRUCTURE", "BUSINESS"];
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 400);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setSelectedScheme(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const filteredSchemes = useMemo(() => {
@@ -126,6 +137,9 @@ const Schemes = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+          {search && (
+            <button type="button" className="clear-search" onClick={() => setSearch("")} aria-label="Clear scheme search">×</button>
+          )}
         </div>
       </div>
 
@@ -208,9 +222,22 @@ const Schemes = () => {
               </div>
             </div>
 
-            <button type="button" className="primary-btn small-btn" onClick={() => setSelectedScheme(null)}>
-              Close
-            </button>
+            <div className="scheme-modal-actions">
+              <button
+                type="button"
+                className="secondary-btn"
+                onClick={() => {
+                  setActionMessage("Opening a demo conversation with SAH-SAMARTH.");
+                  navigate("/chat", { state: { initialMessage: `Tell me more about ${selectedScheme.title}` } });
+                }}
+              >
+                Ask Assistant
+              </button>
+              <button type="button" className="primary-btn small-btn" onClick={() => setSelectedScheme(null)}>
+                Close
+              </button>
+            </div>
+            {actionMessage && <p className="scheme-action-message" role="status">{actionMessage}</p>}
           </div>
         </div>
       )}

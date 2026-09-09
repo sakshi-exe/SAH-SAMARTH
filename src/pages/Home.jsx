@@ -1,7 +1,20 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
+  const [period, setPeriod] = useState("This Month");
+  const [assistantMessage, setAssistantMessage] = useState("");
+
+  const periods = ["This Month", "Last Month", "This Year"];
+
+  const sendAssistantMessage = (event) => {
+    event.preventDefault();
+    const trimmed = assistantMessage.trim();
+    if (!trimmed) return;
+    navigate("/chat", { state: { initialMessage: trimmed } });
+    setAssistantMessage("");
+  };
 
   return (
     <div className="dashboard">
@@ -120,8 +133,13 @@ export default function Home() {
               <h2>Overview</h2>
             </div>
 
-            <button className="view-btn">
-              This Month ▾
+            <button
+              className="view-btn"
+              type="button"
+              onClick={() => setPeriod(periods[(periods.indexOf(period) + 1) % periods.length])}
+              aria-label={`Change activity period, currently ${period}`}
+            >
+              {period} ▾
             </button>
           </div>
 
@@ -180,6 +198,7 @@ export default function Home() {
               statusType="progress"
               id="#SAH-2026-1256"
               time="2 days ago"
+              onClick={() => navigate("/track")}
             />
 
             <Issue
@@ -190,6 +209,7 @@ export default function Home() {
               statusType="open"
               id="#SAH-2026-1255"
               time="4 days ago"
+              onClick={() => navigate("/track")}
             />
 
             <Issue
@@ -200,6 +220,7 @@ export default function Home() {
               statusType="resolved"
               id="#SAH-2026-1254"
               time="1 week ago"
+              onClick={() => navigate("/track")}
             />
 
           </div>
@@ -236,28 +257,33 @@ export default function Home() {
 
           <div className="suggestions">
 
-            <button onClick={() => navigate("/grievance")}>
+            <button type="button" onClick={() => navigate("/grievance")}>
               ⚠️ Report an issue
             </button>
 
-            <button onClick={() => navigate("/grievance")}>
+            <button type="button" onClick={() => navigate("/track")}>
               🔎 Track my complaint
             </button>
 
-            <button onClick={() => navigate("/grievance")}>
+            <button type="button" onClick={() => navigate("/track")}>
               ⭐ Check complaint status
             </button>
 
-            <button onClick={() => navigate("/schemes")}>
+            <button type="button" onClick={() => navigate("/schemes")}>
               🏛️ Find government schemes
             </button>
 
           </div>
 
-          <div className="chat-input">
-            <input placeholder="Type your message..." />
-            <button>➤</button>
-          </div>
+          <form className="chat-input" onSubmit={sendAssistantMessage}>
+            <input
+              placeholder="Type your message..."
+              value={assistantMessage}
+              onChange={(event) => setAssistantMessage(event.target.value)}
+              aria-label="Ask SAH-SAMARTH a question"
+            />
+            <button type="submit" disabled={!assistantMessage.trim()} aria-label="Send message">➤</button>
+          </form>
 
           <div className="assistant-wave"></div>
 
@@ -326,10 +352,11 @@ function Issue({
   status,
   statusType,
   id,
-  time
+  time,
+  onClick
 }) {
   return (
-    <div className="issue-row">
+    <button type="button" className="issue-row" onClick={onClick} aria-label={`Track ${title}`}>
 
       <div className="issue-image">
         {image}
@@ -349,6 +376,6 @@ function Issue({
         <span>{time}</span>
       </div>
 
-    </div>
+    </button>
   );
 }
