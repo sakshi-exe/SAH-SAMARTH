@@ -228,7 +228,7 @@ Make sure the following are installed:
 Clone the repository:
 
 ```bash
-git clone http://localhost:5173/
+git clone https://github.com/sakshi-exe/SAH-SAMARTH.gitgit 
 ```
 
 Navigate to the project:
